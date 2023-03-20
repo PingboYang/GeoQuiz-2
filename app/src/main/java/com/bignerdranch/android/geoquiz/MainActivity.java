@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode,resultCode,data);
-        if(requestCode!= Activity.RESULT_OK){
+        if(resultCode!= Activity.RESULT_OK){
             return;
         }
         if(requestCode==REQUEST_CODE_CHEAT){
