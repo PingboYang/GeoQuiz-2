@@ -12,12 +12,10 @@ import android.widget.TextView;
 public class CheatActivity extends AppCompatActivity {
     private static final String EXTRA_ANSWER_IS_TRUE="com.bignerdranch.android.geoquiz.answer_is_true";
     private static final String EXTRA_ANSWER_SHOW="com.bignerdranch.android.geoquiz.answer_show";
-    private static final String KEY_IS_CHEATER="is_cheater";
     private boolean mAnswerIsTrue;
     private TextView mAnswerTextView;
     private Button mShowAnswerButton;
-    private Button mBackToMainButton;
-    private boolean mIsCheater;
+
 
     public static Intent newIntent(Context packageContext, boolean answerIsTrue ) {
         Intent intent=new Intent(packageContext,CheatActivity.class);
@@ -45,26 +43,16 @@ public class CheatActivity extends AppCompatActivity {
                 }
                 setAnswerShowResult(true);
 
+
             }
         });
-//        mBackToMainButton=(Button) findViewById(R.id.buttonGoBack);
-//        mBackToMainButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                setAnswerShowResult(false);
-//            }
-//        });
     }
     private void setAnswerShowResult(boolean isAnswerShow){
         Intent data=new Intent();
         data.putExtra(EXTRA_ANSWER_SHOW,isAnswerShow);
         setResult(RESULT_OK, data);
-        mIsCheater=isAnswerShow;
-    }
-    @Override
-    public void onBackPressed(){
-        setAnswerShowResult(false);
-        super.onBackPressed();
 
     }
+
+
 }

@@ -53,8 +53,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 checkAnswer(false);
-
-
             }
         });
         mNextButton=(Button) findViewById(R.id.next_button);
@@ -63,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 mCurrentIndex=(mCurrentIndex+1)%mQuestionBank.length;
                 mIsCheater=false;
+
                 updateQuestion();
             }
         });
@@ -70,17 +69,15 @@ public class MainActivity extends AppCompatActivity {
         mCheatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent=new Intent(MainActivity.this, CheatActivity.class);
                 boolean answerIsTrue=mQuestionBank[mCurrentIndex].isAnswerTrue();
                 Intent intent=CheatActivity.newIntent(MainActivity.this, answerIsTrue);
 
-//                startActivity(intent);
                 startActivityForResult(intent, REQUEST_CODE_CHEAT );
             }
         });
+
         updateQuestion();
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode,resultCode,data);
@@ -92,6 +89,9 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
             mIsCheater=CheatActivity.wasAnswerShown(data);
+            if(mIsCheater){
+                Toast.makeText(this, R.string.judgment_toast, Toast.LENGTH_SHORT).show();
+            }
         }
     }
     @Override    //override is because it's exist.
@@ -110,12 +110,7 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         Log.d(TAG, "onPause() called");
     }
-//    @Override
-//    public void onSaveInstanceState(Bundle savedInstanceState){
-//        super.onSaveInstanceState(savedInstanceState);
-//        Log.i(TAG, "onSaveInstanceState");
-//        savedInstanceState.putInt(KEY_INDEX, mCurrentIndex);
-//    }
+//
     @Override
     public void onStop(){
         super.onStop();
@@ -132,9 +127,10 @@ public class MainActivity extends AppCompatActivity {
     }
     private void checkAnswer(boolean userPressedTrue){
         boolean answerIsTrue=mQuestionBank[mCurrentIndex].isAnswerTrue();
+        boolean isCheater=mIsCheater;
 
-        int messageResId=0;
-        if(mIsCheater){
+        int messageResId;
+        if(isCheater){
             messageResId=R.string.judgment_toast;
         }else {
             if (userPressedTrue == answerIsTrue) {
